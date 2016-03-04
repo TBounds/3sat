@@ -4,8 +4,17 @@
 #   so we have to do this awful hack to make this file interpretable.
 # Don't worry too much if this doesn't make sense;
 #   it's supposed to be ridiculous.
+
 exec lisp -batch -quiet -load "$0" -eval '(main)' -eval '(quit)'
 |#
+
+#-quicklisp (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                                   (user-homedir-pathname))))
+              (when (probe-file quicklisp-init)
+                (load quicklisp-init)))
+
+#-quicklisp (load "lib/quicklisp.lisp")
+#-quicklisp (quicklisp-quickstart:install)
 
 (load "3sat.lisp")
 

@@ -1,4 +1,4 @@
 test:
-  script: "prove -MTime::Limit=30 --verbose --merge --exec ''"
+  script: "unbuffer prove -MTime::Limit=30 --merge --verbose"
   tags:
     - cmucl
