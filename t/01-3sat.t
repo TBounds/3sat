@@ -4,8 +4,17 @@
 #   so we have to do this awful hack to make this file interpretable.
 # Don't worry too much if this doesn't make sense;
 #   it's supposed to be ridiculous.
+
 exec lisp -batch -quiet -load "$0" -eval '(main)' -eval '(quit)'
 |#
+
+#-quicklisp (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                                   (user-homedir-pathname))))
+              (when (probe-file quicklisp-init)
+                (load quicklisp-init)))
+
+#-quicklisp (load "lib/quicklisp.lisp")
+#-quicklisp (quicklisp-quickstart:install)
 
 (load "3sat.lisp")
 
@@ -72,6 +81,7 @@ exec lisp -batch -quiet -load "$0" -eval '(main)' -eval '(quit)'
 (defun score-eval-var (var state)
   (cond
     ((eq var (caar state)) (cadar state))
+    ((not state) (error (format nil "Undefined var: ~a" var)))
     (t (score-eval-var var (cdr state)))))
 
 (defun score-eval-clause (clause state)
@@ -151,9 +161,10 @@ exec lisp -batch -quiet -load "$0" -eval '(main)' -eval '(quit)'
             "get-better-neighbor (see *score-clauses* in source for clauses)"))
 
 (defun test-simple-hill-climb ()
-  (let* ((u (score-unsat-clauses *score-clauses* *score-good-state*))
-         (st (simple-hill-climb *score-clauses* *score-good-state* 10 u)))
-    (prove:ok (and st (score-satisfied *score-clauses* st)) "simple-hill-climb")))
+  (prove:ok
+   (let* ((u (score-unsat-clauses *score-clauses* *score-good-state*))
+          (st (simple-hill-climb *score-clauses* *score-good-state* 10 u)))
+     (and st (score-satisfied *score-clauses* st)))))
 
 (defun my-unsat-clauses (clauses state)
   (cond
