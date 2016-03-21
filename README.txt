@@ -1,7 +1,7 @@
 Common Lisp 3SAT solver using simple hill climbing.
 
-Name:
-Email:
+Name: Tyler Bounds
+Email: tyler.bounds@wsu.edu
 
 XXX
 
