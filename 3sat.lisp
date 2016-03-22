@@ -92,13 +92,13 @@
 ;;;;;;; SIMPLE-HILL-CLIMB ;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun simple-hill-climb (clauses state dist unsat)
-  (cond 
-    ((null unsat) state)  ; Base case 1: unsat !empty
-    ((<= dist 0) nil)  ; Base case 2: dist > 0
-  (t 
-    (let ((vars (get-all-vars clauses))) ; Get all the vars of clauses and save them.
-      (let ((new_list (get-better-neighbor clauses state vars (length (unsat-clauses clauses state)))))   ; Find a better neighbor and save the state.
-        (cond
-          ((null new_list) state)
-        (t
-          ((simple-hill-climb clauses new_list (- dist 1) cdr (new_list))) ) ) ) ) ) ) )
+  (cond
+    ((<= dist 0) nil)     ; Could not find a solution.
+    ((null unsat) state)  ; A solution was found.
+  (t
+      (let ((vars)) (get-all-vars clauses)
+        (let ((new_list)) (get-better-neighbor clauses state vars (length (unsat-clauses clauses state)))
+          (cond
+            ((null new_list) state)
+          (t
+            (simple-hill-climb clauses (car new_list) (- dist 1) (cdr new_list)) ) ) ) ) ) ) )
