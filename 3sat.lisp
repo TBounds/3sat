@@ -101,4 +101,4 @@
         (let ((new_unsat (unsat-clauses clauses new_state))) ; Find the unsatisfied clauses given the new_state and save them.
           (cond
             ((> unsat (length new_unsat)) (simple-hill-climb clauses new_state (- dist 1) new_unsat))
-            ((null new_state) state) ) ) ) ) ) ) )
+            ((null new_state) t) ) ) ) ) ) ) )
