@@ -7,7 +7,7 @@
     ((eql var (caar state))             ; If the var is the same...
       (cadar state))                    ; Return the state.
   (t 
-    (eval-var var (cdr state))) ) )  ; Recursively call eval-var
+    (eval-var var (cdr state))) ) )     ; Recursively call eval-var
 
 (defvar *clause* '(a (not b) c))
 
@@ -21,12 +21,12 @@
       (cond
         ((eval-var (car clause) state) t)       ; If the atom is in the state, evals to true.
       (t 
-        (eval-clause (cdr clause) state)) ) )  ; Else, recursively call eval-clause with the rest of clause.
-  (t                                          ; If the first element in the clause is a list...
+        (eval-clause (cdr clause) state)) ) )   ; Else, recursively call eval-clause with the rest of clause.
+  (t                                            ; If the first element in the clause is a list...
     (cond
       ((not (eval-var (cadar clause) state)) t)     ; If the atom in the list is in the state, evals to true.
     (t 
-      (eval-clause (cdr clause) state)) ) ) ) )    ; Else, recursively call eval-clause.
+      (eval-clause (cdr clause) state)) ) ) ) )     ; Else, recursively call eval-clause.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;; GET-VARS ;;;;;;;;;;;;
@@ -78,7 +78,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;; GET-BETTER-NEIGHBOR ;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-(defun get-better-neighbor (clauses state vars num-unsat)
+(defun get-better-neighbor (clauses state vars num-unsat) ; Modifies the state and returns a state that satisfies more clauses than the previous one.
   (cond
     ((null vars) nil) ; Base case: while vars is !empty
     ; If num-unsat > the # of unsatisfied clauses after modifying the state.
@@ -96,9 +96,11 @@
     ((<= dist 0) nil)     ; Could not find a solution.
     ((null unsat) state)  ; A solution was found.
   (t
-      (let ((vars (get-all-vars clauses)))
+      ; Grab all the vars from clauses. This evals to the same thing, so it is redundant.
+      (let ((vars (get-all-vars clauses)))  
+        ; Create a list of 2 lists. First list is the modified state. The second list is the unsat-clauses.
         (let ((new_list (get-better-neighbor clauses state vars (length (unsat-clauses clauses state)))))
           (cond
-            ((null new_list) state)
+            ((null new_list) state) ; Solution was found is new_list is null.
           (t
-            (simple-hill-climb clauses (car new_list) (- dist 1) (cdr new_list)) ) ) ) ) ) ) )
+            (simple-hill-climb clauses (car new_list) (- dist 1) (cdr new_list)) ) ) ) ) ) ) ) ; Otherwise recurse with modified paramters.
