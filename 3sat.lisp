@@ -1,3 +1,13 @@
+; Author: Tyler Bounds
+; Email:  tyler.bounds@wsu.edu
+; Class:  CS 355 - Language Design
+; Date:   3/22/2016
+; Description: This program is a solution to the 3-SAT problem. Given a set of 
+;              boolean variables and a boolean expression written in conjuctive 
+;              normal form with 3 variables per clause, this program utilizes 8 
+;              functions to determine if there is some assignment of true and  
+;              false for each variable that solves the entire expression.
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;; EVAL-VAR ;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
