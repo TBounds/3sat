@@ -96,8 +96,8 @@
     ((<= dist 0) nil)     ; Could not find a solution.
     ((null unsat) state)  ; A solution was found.
   (t
-      (let ((vars)) (get-all-vars clauses)
-        (let ((new_list)) (get-better-neighbor clauses state vars (length (unsat-clauses clauses state)))
+      (let ((vars (get-all-vars clauses)))
+        (let ((new_list (get-better-neighbor clauses state vars (length (unsat-clauses clauses state)))))
           (cond
             ((null new_list) state)
           (t
