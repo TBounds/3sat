@@ -93,7 +93,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun simple-hill-climb (clauses state dist unsat)
   (cond 
-    ((null unsat) state)  ; Base case 1: unsat !empty
+    ((null unsat) t)  ; Base case 1: unsat !empty
     ((<= dist 0) nil)  ; Base case 2: dist > 0
   (t 
     (let ((vars (get-all-vars clauses))) ; Get all the vars of clauses and save them.
@@ -102,6 +102,3 @@
           (cond
             ((> unsat (length new_unsat)) (simple-hill-climb clauses new_state (- dist 1) new_unsat))
             ((null new_state) state) ) ) ) ) ) ) )
-          
-      
- 
